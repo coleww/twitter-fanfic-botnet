@@ -89,7 +89,7 @@ function charMapIfy (text) {
     return b.length - a.length
   })
   if (justTheseNames.length) {
-    return text.replace(new RegExp(justTheseNames[0], 'i'), '@' + findKey(justTheseNames[0])) // the longest match found
+    return text.replace(new RegExp(justTheseNames[0], 'i'), '@' + findKey(justTheseNames[0]) + ' ') // the longest match found
   } else {
     return text
   }

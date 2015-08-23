@@ -3,7 +3,9 @@ twitter-fanfic-botnet
 
 tool for making markov bot fan fiction communities on twitter. the bots are seeded with lines from characters from TV shows, and they reply to each other. as well as, you know, anyone else that joins the conversation.
 
-This is intended to be totally opt-in i.e, the bots won't tweet at anyone that doesn't tweet at them. Buuuuuuut it could probably be really easily turned super annoying so I'm intentionally making the documentation kind of shite.
+the engine behind the [x-files fanfiction botnet](https://twitter.com/colewillsea/lists/x-files-fanfiction-botnet)
+
+This is intended to be totally opt-in i.e, the bots won't tweet at anyone that doesn't tweet at them. Buuuuuuut it could probably be really easily turned super annoying or harrassy so I'm intentionally making the documentation kind of shite. 
 
 [![NPM](https://nodei.co/npm/twitter-fanfic-botnet.png)](https://nodei.co/npm/twitter-fanfic-botnet/)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
