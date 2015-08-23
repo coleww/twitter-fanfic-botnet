@@ -13,8 +13,8 @@
   "dependencies": {
     "after": "^0.8.1",
     "markov": "0.0.7",
-    "twit": "^2.1.0",
-    "yargs": "^3.21.0"
+    "require-module": "^0.1.0",
+    "twit": "^2.1.0"
   },
   "license": "MIT",
   "description": "re-live yr favorite tv-shows through a twitter botnet!",
@@ -27,5 +27,13 @@
   "author": "Cole Willsea <coleww@gmail.com> (http://colewillsea.com/)",
   "bin": {
     "twitterFanficBotnet": "cmd.js"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coleww/twitter-fanfic-botnet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/coleww/twitter-fanfic-botnet/issues"
+  },
+  "homepage": "https://github.com/coleww/twitter-fanfic-botnet"
 }
