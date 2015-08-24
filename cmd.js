@@ -78,11 +78,11 @@ lines.forEach(function (line) {
 
 function createReply (text) {
   // markov funs!
-  return charMapIfy(m.respond(text, 12).join(' '))
+  return charMapIfy(m.respond(text).join(' '))
 }
 
 function createToot () {
-  return charMapIfy(m.fill(m.pick(), 16).join(' '))
+  return charMapIfy(m.fill(m.pick()).join(' '))
 }
 
 function charMapIfy (text) {
