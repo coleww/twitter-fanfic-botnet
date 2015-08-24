@@ -1,6 +1,6 @@
 {
   "name": "twitter-fanfic-botnet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "tweet": "node bot.js",
@@ -14,7 +14,8 @@
     "after": "^0.8.1",
     "markov": "0.0.7",
     "require-module": "^0.1.0",
-    "twit": "^2.1.0"
+    "twit": "^2.1.0",
+    "wordfilter": "^0.2.1"
   },
   "license": "MIT",
   "description": "re-live yr favorite tv-shows through a twitter botnet!",

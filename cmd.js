@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
 var markov = require('markov')
-var m = markov(1)
+var m = markov(process.argv[2] || 3)
 var after = require('after')
 var fs = require('fs')
 var reqy = require('require-module')
+var wordfilter = require('wordfilter');
 
 var charMap = {}
-var allTheNames = []
 fs.readdirSync('..').forEach(function (folder) {
-  if (folder.indexOf('_bot') !== -1) {
+  if (folder.indexOf('_bot') !== -1 && fs.existsSync('../' + folder + '/package.json')) {
     var deets = reqy('../' + folder + '/package.json')['twitterFanficBotnet']
-    charMap[deets.username] = deets.charnames
-    allTheNames = allTheNames.concat(deets.charnames)
+    deets.charnames.forEach(function (name) {
+      charMap[name] = deets.username
+    })
   }
 })
 
@@ -24,7 +25,7 @@ var lines = reqy('./lines')
 var init = after(lines.length, function () {
   var ogToot = createToot()
   console.log(ogToot)
-  if (Math.random() < 0.33) { // only sometimes
+  if (Math.random() < 0.33 && !wordfilter.blacklisted(ogToot)) { // only sometimes
     T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
       if (err) {
         throw err
@@ -46,10 +47,12 @@ var init = after(lines.length, function () {
         } else {
           console.log('got recent mentions')
           data.forEach(function (toot, i) {
+
             var reply = createReply(toot.text)
             var text = '@' + toot.user.screen_name + ' ' + reply
             var id = toot.id_str
-            if (Math.random() < 0.75) {
+            console.log('reply to', id, text)
+            if (Math.random() < 0.75 && !wordfilter.blacklisted(text)) {
               setTimeout(function () {
                 console.log('firing off:', id, text)
                 T.post('statuses/update', {status: text, in_reply_to_status_id: id}, function (err, data, response) { // post the next line in reply to the most recent one
@@ -83,20 +86,14 @@ function createToot () {
 }
 
 function charMapIfy (text) {
-  var justTheseNames = allTheNames.filter(function (name) {
-    return text.toLowerCase().match(name)
+  var justTheseNames = Object.keys(charMap).filter(function (name) {
+    return text.toLowerCase().match(name.toLowerCase())
   }).sort(function (a, b) {
     return b.length - a.length
   })
   if (justTheseNames.length) {
-    return text.replace(new RegExp(justTheseNames[0], 'i'), '@' + findKey(justTheseNames[0]) + ' ') // the longest match found
+    return text.replace(new RegExp(justTheseNames[0], 'i'), '@' + charMap[justTheseNames[0]] + ' ') // the longest match found
   } else {
     return text
   }
-}
-
-function findKey (name) {
-  return Object.keys(charMap).filter(function (k) {
-    return charMap[k].indexOf(name) !== -1
-  })[0]
 }
