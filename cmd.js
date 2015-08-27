@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
 var markov = require('markov')
-var m = markov(process.argv[2] || 3)
+var m = markov(process.argv[2] || 2)
 var after = require('after')
 var fs = require('fs')
 var reqy = require('require-module')
 var wordfilter = require('wordfilter');
+var isOk = require('this-is-probably-ok-to-say')
 
 var charMap = {}
 fs.readdirSync('..').forEach(function (folder) {
@@ -25,7 +26,7 @@ var lines = reqy('./lines')
 var init = after(lines.length, function () {
   var ogToot = createToot()
   console.log(ogToot)
-  if (Math.random() < 0.33 && !wordfilter.blacklisted(ogToot)) { // only sometimes
+  if (Math.random() < 0.35 && !wordfilter.blacklisted(ogToot)) { // only sometimes
     T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
       if (err) {
         throw err
@@ -78,11 +79,19 @@ lines.forEach(function (line) {
 
 function createReply (text) {
   // markov funs!
-  return charMapIfy(m.respond(text).join(' '))
+  var toot = m.respond(text).join(' ')
+  while (!isOk(toot) || toot.length > 140) {
+    toot = m.respond(text).join(' ')
+  }
+  return charMapIfy(toot)
 }
 
 function createToot () {
-  return charMapIfy(m.fill(m.pick()).join(' '))
+  var toot = m.fill(m.pick()).join(' ')
+  while (!isOk(toot) || toot.length > 140) {
+    toot = m.fill(m.pick()).join(' ')
+  }
+  return charMapIfy(toot)
 }
 
 function charMapIfy (text) {
