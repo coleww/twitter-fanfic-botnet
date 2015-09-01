@@ -26,23 +26,22 @@ var lines = reqy('./lines')
 var init = after(lines.length, function () {
   var ogToot = createToot()
   console.log(ogToot)
-  if (Math.random() < 0.35 && !wordfilter.blacklisted(ogToot)) { // only sometimes
-    setTimeout(function() {
-      T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
-        if (err) {
-          throw err
-        } else {
-          console.log(data)
-        }
-      })
-    }, 15000)
-  }
+
   console.log('loaded markov')
   T.get('statuses/user_timeline', {screen_name: config.username}, function (err, datum, response) {
     if (err) {
       throw err
     } else {
       console.log('got last tweet id')
+      if (Math.random() < 0.35 && !wordfilter.blacklisted(ogToot)) { // only sometimes
+          T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
+            if (err) {
+              throw err
+            } else {
+              console.log(data)
+            }
+          })
+      }
       T.get('statuses/mentions_timeline', {since_id: datum[0].id_str}, function (err, data, response) {
         if (err) {
           throw err
