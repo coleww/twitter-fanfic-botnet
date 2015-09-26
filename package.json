@@ -1,6 +1,6 @@
 {
   "name": "twitter-fanfic-botnet",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "index.js",
   "scripts": {
     "tweet": "node bot.js",
@@ -13,6 +13,7 @@
   "dependencies": {
     "after": "^0.8.1",
     "filtered-followback": "^1.2.0",
+    "iscool": "^1.1.7",
     "markov": "coleww/node-markov",
     "require-module": "^0.1.0",
     "twit": "^2.1.0",
