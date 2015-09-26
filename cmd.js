@@ -6,7 +6,8 @@ var after = require('after')
 var fs = require('fs')
 var reqy = require('require-module')
 var wordfilter = require('wordfilter');
-var isOk = require('this-is-probably-ok-to-say')
+var isOk = require('iscool')()
+var filteredFollowback = require('filtered-followback')
 
 var charMap = {}
 fs.readdirSync('..').forEach(function (folder) {
@@ -28,47 +29,56 @@ var init = after(lines.length, function () {
   console.log(ogToot)
 
   console.log('loaded markov')
-  T.get('statuses/user_timeline', {screen_name: config.username}, function (err, datum, response) {
-    if (err) {
-      throw err
-    } else {
-      console.log('got last tweet id')
-      if (Math.random() < 0.35 && !wordfilter.blacklisted(ogToot)) { // only sometimes
-          T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
-            if (err) {
-              throw err
-            } else {
-              console.log(data)
-            }
-          })
-      }
-      T.get('statuses/mentions_timeline', {since_id: datum[0].id_str}, function (err, data, response) {
-        if (err) {
-          throw err
-        } else {
-          console.log('got recent mentions')
-          data.forEach(function (toot, i) {
-
-            var reply = createReply(toot.text)
-            var text = '@' + toot.user.screen_name + ' ' + reply
-            var id = toot.id_str
-            console.log('reply to', id, text)
-            if (Math.random() < 0.75 && !wordfilter.blacklisted(text)) {
-              setTimeout(function () {
-                console.log('firing off:', id, text)
-                T.post('statuses/update', {status: text, in_reply_to_status_id: id}, function (err, data, response) { // post the next line in reply to the most recent one
-                  if (err) {
-                    throw err
-                  } else {
-                    console.log(data)
-                  }
-                })
-              }, 60 * 1000 * ((Math.random() * 5) + 1) * (i + 1))
-            }
-          })
+  filteredFollowback({twitterCreds: config,
+    neverUnfollow: [
+    ],
+    blacklist: [
+    ]}, function reportResults(err, followed, unfollowed) {
+    if (err) throw err
+    console.log('Followed:', followed);
+    console.log('Unfollowed:', unfollowed);
+    T.get('statuses/user_timeline', {screen_name: config.username}, function (err, datum, response) {
+      if (err) {
+        throw err
+      } else {
+        console.log('got last tweet id')
+        if (Math.random() < 0.35 && !wordfilter.blacklisted(ogToot)) { // only sometimes
+            T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
+              if (err) {
+                throw err
+              } else {
+                console.log(data)
+              }
+            })
         }
-      })
-    }
+        T.get('statuses/mentions_timeline', {since_id: datum[0].id_str}, function (err, data, response) {
+          if (err) {
+            throw err
+          } else {
+            console.log('got recent mentions')
+            data.forEach(function (toot, i) {
+
+              var reply = createReply(toot.text)
+              var text = '@' + toot.user.screen_name + ' ' + reply
+              var id = toot.id_str
+              console.log('reply to', id, text)
+              if (Math.random() < 0.75 && !wordfilter.blacklisted(text)) {
+                setTimeout(function () {
+                  console.log('firing off:', id, text)
+                  T.post('statuses/update', {status: text, in_reply_to_status_id: id}, function (err, data, response) { // post the next line in reply to the most recent one
+                    if (err) {
+                      throw err
+                    } else {
+                      console.log(data)
+                    }
+                  })
+                }, 60 * 1000 * ((Math.random() * 5) + 1) * (i + 1))
+              }
+            })
+          }
+        })
+      }
+    })
   })
 })
 
