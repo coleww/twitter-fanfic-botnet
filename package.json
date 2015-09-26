@@ -1,9 +1,11 @@
 {
   "name": "twitter-fanfic-botnet",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "index.js",
   "dependencies": {
+    "add-ender": "^1.0.0",
     "after": "^0.8.1",
+    "capitalize": "^1.0.0",
     "iscool": "^1.1.7",
     "markov": "coleww/node-markov",
     "quidprofollow": "^1.2.1",

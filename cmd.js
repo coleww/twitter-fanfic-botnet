@@ -8,7 +8,8 @@ var reqy = require('require-module')
 var wordfilter = require('wordfilter');
 var isOk = require('iscool')()
 var quidprofollow = require('quidprofollow');
-
+var addEnd = require('add-ender')
+var cap = require('capitalize')
 var charMap = {}
 fs.readdirSync('..').forEach(function (folder) {
   if (folder.indexOf('_bot') !== -1 && fs.existsSync('../' + folder + '/package.json')) {
@@ -25,7 +26,7 @@ var config = packageJSON['twitterFanficBotnet']
 var T = new Twit(config.twitter)
 var lines = reqy('./lines')
 var init = after(lines.length, function () {
-  var ogToot = createToot()
+  var ogToot = cap(addEnd(createToot()))
   console.log(ogToot)
 
   console.log('loaded markov')
@@ -56,7 +57,7 @@ var init = after(lines.length, function () {
             data.forEach(function (toot, i) {
 
               var reply = createReply(toot.text)
-              var text = '@' + toot.user.screen_name + ' ' + reply
+              var text = cap(addEnd('@' + toot.user.screen_name + ' ' + reply))
               var id = toot.id_str
               console.log('reply to', id, text)
               if (Math.random() < 0.75 && !wordfilter.blacklisted(text) && text.length < 140) {
