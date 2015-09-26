@@ -7,7 +7,7 @@ var fs = require('fs')
 var reqy = require('require-module')
 var wordfilter = require('wordfilter');
 var isOk = require('iscool')()
-var filteredFollowback = require('filtered-followback')
+var quidprofollow = require('quidprofollow');
 
 var charMap = {}
 fs.readdirSync('..').forEach(function (folder) {
@@ -29,10 +29,7 @@ var init = after(lines.length, function () {
   console.log(ogToot)
 
   console.log('loaded markov')
-  filteredFollowback({twitterCreds: config.twitter,
-    neverUnfollow: [
-    ],
-    blacklist: [
+  quidprofollow({twitterAPIKeys: config.twitter
     ]}, function reportResults(err, followed, unfollowed) {
     if (err) throw err
     console.log('Followed:', followed);

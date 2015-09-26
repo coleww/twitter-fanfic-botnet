@@ -1,12 +1,12 @@
 {
   "name": "twitter-fanfic-botnet",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "index.js",
   "dependencies": {
     "after": "^0.8.1",
-    "filtered-followback": "^1.2.0",
     "iscool": "^1.1.7",
     "markov": "coleww/node-markov",
+    "quidprofollow": "^1.2.1",
     "require-module": "^0.1.0",
     "twit": "^2.1.0",
     "wordfilter": "^0.2.1"
