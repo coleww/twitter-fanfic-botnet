@@ -42,7 +42,7 @@ var init = after(lines.length, function () {
         throw err
       } else {
         console.log('got last tweet id')
-        if (Math.random() < 0.35 && !wordfilter.blacklisted(ogToot)) { // only sometimes
+        if (Math.random() < 0.35 && !wordfilter.blacklisted(ogToot) && ogToot.length < 140) { // only sometimes
             T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
               if (err) {
                 throw err
@@ -62,7 +62,7 @@ var init = after(lines.length, function () {
               var text = '@' + toot.user.screen_name + ' ' + reply
               var id = toot.id_str
               console.log('reply to', id, text)
-              if (Math.random() < 0.75 && !wordfilter.blacklisted(text)) {
+              if (Math.random() < 0.75 && !wordfilter.blacklisted(text) && text.length < 140) {
                 setTimeout(function () {
                   console.log('firing off:', id, text)
                   T.post('statuses/update', {status: text, in_reply_to_status_id: id}, function (err, data, response) { // post the next line in reply to the most recent one

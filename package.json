@@ -2,14 +2,6 @@
   "name": "twitter-fanfic-botnet",
   "version": "1.0.9",
   "main": "index.js",
-  "scripts": {
-    "tweet": "node bot.js",
-    "test": "standard",
-    "publish": "npm run test"
-  },
-  "devDependencies": {
-    "standard": "4.5.4"
-  },
   "dependencies": {
     "after": "^0.8.1",
     "filtered-followback": "^1.2.0",
