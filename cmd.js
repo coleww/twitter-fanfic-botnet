@@ -29,7 +29,7 @@ var init = after(lines.length, function () {
   console.log(ogToot)
 
   console.log('loaded markov')
-  filteredFollowback({twitterCreds: config,
+  filteredFollowback({twitterCreds: config.twitter,
     neverUnfollow: [
     ],
     blacklist: [
