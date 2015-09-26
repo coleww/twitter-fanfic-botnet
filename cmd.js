@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var markov = require('markov')
-var m = markov(process.argv[2] || 2)
+var m = markov(~~process.argv[2] || 2)
 var after = require('after')
 var fs = require('fs')
 var reqy = require('require-module')
