@@ -10,6 +10,7 @@ var isOk = require('iscool')()
 var quidprofollow = require('quidprofollow');
 var addEnd = require('add-ender')
 var cap = require('capitalize')
+var stops = require('stopwords').english;
 var charMap = {}
 fs.readdirSync('..').forEach(function (folder) {
   if (folder.indexOf('_bot') !== -1 && fs.existsSync('../' + folder + '/package.json')) {
@@ -95,9 +96,9 @@ function createReply (text) {
 }
 
 function createToot () {
-  var toot = m.fill(m.pick()).join(' ')
-  while (!isOk(toot) || toot.length > 140) {
-    toot = m.fill(m.pick()).join(' ')
+  var toot = m.fill(m.pick()).join(' ').toLowerCase()
+  while (!isOk(toot) || toot.length > 140 || stops.indexOf(toot.split(' ')[toot.split(' ').length - 1].replace(/\W/g, '')) !== -1) {
+    toot = m.fill(m.pick()).join(' ').toLowerCase()
   }
   return charMapIfy(toot)
 }

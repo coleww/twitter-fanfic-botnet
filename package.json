@@ -10,6 +10,7 @@
     "markov": "coleww/node-markov",
     "quidprofollow": "^1.2.1",
     "require-module": "^0.1.0",
+    "stopwords": "0.0.5",
     "twit": "^2.1.0",
     "wordfilter": "^0.2.1"
   },
