@@ -30,8 +30,7 @@ var init = after(lines.length, function () {
   console.log(ogToot)
 
   console.log('loaded markov')
-  quidprofollow({twitterAPIKeys: config.twitter
-    ]}, function reportResults(err, followed, unfollowed) {
+  quidprofollow({twitterAPIKeys: config.twitter}, function reportResults(err, followed, unfollowed) {
     if (err) throw err
     console.log('Followed:', followed);
     console.log('Unfollowed:', unfollowed);
