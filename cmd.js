@@ -56,7 +56,7 @@ var init = after(lines.length, function () {
             data.forEach(function (toot, i) {
               if (iscool(toot.text)){
                 var reply = createReply(toot.text)
-                var text = cap(addEnd('@' + toot.user.screen_name + ' ' + reply))
+                var text = addEnd('@' + toot.user.screen_name + ' ' + cap(reply))
                 var id = toot.id_str
                 console.log('reply to', id, text)
                 if (Math.random() < 0.75 && iscool(text) && text.length < 140) {
@@ -87,9 +87,9 @@ lines.forEach(function (line) {
 
 function createReply (text) {
   // markov funs!
-  var toot = m.respond(text).join(' ')
+  var toot = m.respond(text).join(' ').toLowerCase()
   while (!iscool(toot) || toot.length > 140 || stops.indexOf(toot.split(' ')[toot.split(' ').length - 1].replace(/\W/g, '')) !== -1) {
-    toot = m.respond(text).join(' ')
+    toot = m.respond(text).join(' ').toLowerCase()
   }
   return charMapIfy(toot)
 }
