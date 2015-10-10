@@ -5,7 +5,7 @@ var m = markov(~~process.argv[2] || 2)
 var after = require('after')
 var fs = require('fs')
 var reqy = require('require-module')
-var iscool = require('iscool')();
+var tipots = require('this-is-probably-ok-to-say');
 var quidprofollow = require('quidprofollow');
 var addEnd = require('add-ender')
 var cap = require('capitalize')
@@ -39,7 +39,7 @@ var init = after(lines.length, function () {
         throw err
       } else {
         console.log('got last tweet id')
-        if (Math.random() < 0.5 && iscool(ogToot) && ogToot.length < 140) { // only sometimes
+        if (Math.random() < 0.5 && tipots(ogToot) && ogToot.length < 140) { // only sometimes
             T.post('statuses/update', {status: ogToot}, function (err, data, response) { // post the next line in reply to the most recent one
               if (err) {
                 throw err
@@ -54,12 +54,12 @@ var init = after(lines.length, function () {
           } else {
             console.log('got recent mentions')
             data.forEach(function (toot, i) {
-              if (iscool(toot.text)){
+              if (tipots(toot.text)){
                 var reply = createReply(toot.text)
                 var text = addEnd('@' + toot.user.screen_name + ' ' + cap(reply))
                 var id = toot.id_str
                 console.log('reply to', id, text)
-                if (Math.random() < 0.75 && iscool(text) && text.length < 140) {
+                if (Math.random() < 0.75 && tipots(text) && text.length < 140) {
                   setTimeout(function () {
                     console.log('firing off:', id, text)
                     T.post('statuses/update', {status: text, in_reply_to_status_id: id}, function (err, data, response) { // post the next line in reply to the most recent one
@@ -88,7 +88,7 @@ lines.forEach(function (line) {
 function createReply (text) {
   // markov funs!
   var toot = m.respond(text).join(' ').toLowerCase()
-  while (!iscool(toot) || toot.length > 140 || stops.indexOf(toot.split(' ')[toot.split(' ').length - 1].replace(/\W/g, '')) !== -1) {
+  while (!tipots(toot) || toot.length > 140 || stops.indexOf(toot.split(' ')[toot.split(' ').length - 1].replace(/\W/g, '')) !== -1) {
     toot = m.respond(text).join(' ').toLowerCase()
   }
   return charMapIfy(toot)
@@ -96,7 +96,7 @@ function createReply (text) {
 
 function createToot () {
   var toot = m.fill(m.pick()).join(' ').toLowerCase()
-  while (!iscool(toot) || toot.length > 140 || stops.indexOf(toot.split(' ')[toot.split(' ').length - 1].replace(/\W/g, '')) !== -1) {
+  while (!tipots(toot) || toot.length > 140 || stops.indexOf(toot.split(' ')[toot.split(' ').length - 1].replace(/\W/g, '')) !== -1) {
     toot = m.fill(m.pick()).join(' ').toLowerCase()
   }
   return charMapIfy(toot)
