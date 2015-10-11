@@ -1,6 +1,6 @@
 {
   "name": "twitter-fanfic-botnet",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "index.js",
   "dependencies": {
     "add-ender": "^1.0.0",
@@ -8,6 +8,7 @@
     "capitalize": "^1.0.0",
     "iscool": "^1.1.7",
     "markov": "coleww/node-markov",
+    "pick-random": "^1.0.1",
     "quidprofollow": "^1.2.1",
     "require-module": "^0.1.0",
     "stopwords": "0.0.5",
