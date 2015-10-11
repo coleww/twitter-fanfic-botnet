@@ -1,6 +1,6 @@
 {
   "name": "twitter-fanfic-botnet",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "main": "index.js",
   "dependencies": {
     "add-ender": "^1.0.0",

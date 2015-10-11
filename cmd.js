@@ -26,7 +26,7 @@ var packageJSON = reqy('./package.json')
 var config = packageJSON['twitterFanficBotnet']
 var T = new Twit(config.twitter)
 var lines = reqy('./lines')
-if(lines.length > 100) lines = pick(lines, {count: 1000})
+if(lines.length > 500) lines = pick(lines, {count: 500})
 var init = after(lines.length, function () {
   var ogToot = cap(addEnd(createToot()))
   console.log(ogToot)
